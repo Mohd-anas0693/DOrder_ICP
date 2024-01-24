@@ -1,0 +1,29 @@
+{
+  "canisters": {
+    "Dorder_backend": {
+      "main": "src/Dorder_backend/main.mo",
+      "type": "motoko"
+    },
+    "Dorder_frontend": {
+      "dependencies": [
+        "Dorder_backend"
+      ],
+      "frontend": {
+        "entrypoint": "src/Dorder_frontend/src/index.html"
+      },
+      "source": [
+        "src/Dorder_frontend/assets",
+        "dist/Dorder_frontend/"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
