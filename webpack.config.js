@@ -48,6 +48,8 @@ module.exports = {
    rules: [
      { test: /\.(ts|tsx|jsx)$/, loader: "ts-loader" },
      { test: /\.css$/, use: ["style-loader", "css-loader", "postcss-loader"] },
+     { test: /\.(png|jpg|jpeg)$/, use: ["file-loader"] },
+     { test: /\.svg$/, use: ["svg-loader"] },
    ]
   },
   plugins: [
