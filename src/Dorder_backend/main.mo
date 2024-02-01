@@ -77,7 +77,7 @@ actor {
       };
     };
   };
-  public shared query ({ caller }) func getCategeroiesData(id : Types.CategoryId) : async Types.User {
+  public shared query ({ caller }) func getCategeroiesData(id : Types.CategoryId) : async Types.Categories {
     switch (mapOfCategory.get(id)) {
       case (null) { throw Error.reject("No useData found") };
       case (?r) {
