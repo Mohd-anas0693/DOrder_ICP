@@ -1,12 +1,12 @@
 module {
-    type ProductId = Text;
-    type Name = Text;
-    type Discription = Text;
-    type Price = Text;
-    type StockLevel = Nat;
-    type SellerId = Text;
+    public type ProductId = Text;
+    public type UserId = Text;
+    public type Name = Text;
+    public type Discription = Text;
+    public type Price = Text;
+    public type StockLevel = Nat;
+    public type SellerId = Text;
     public type Product = {
-        productId : ProductId;
         name : Name;
         description : Discription;
         price : Price;
@@ -16,10 +16,10 @@ module {
         images : Text;
         rating : Nat;
     };
-    type UserId = Text;
+    
     type Email = Text;
     type Address = Text;
-    public type Users = {
+    public type User = {
         userId : UserId;
         name : Name;
         email : Email;
@@ -27,7 +27,7 @@ module {
         orderHistory : [OrderId];
         walletAddress : Text;
     };
-    type OrderId = Text;
+    public type OrderId = Text;
     public type Order = {
         orderId : OrderId;
         userId : UserId;
@@ -37,7 +37,7 @@ module {
         paymentInfo : Text;
         shippingDetails : Text;
     };
-    type CategoryId = Text;
+    public type CategoryId = Text;
     public type Categories = {
         categoryId : CategoryId;
         name : Name;
