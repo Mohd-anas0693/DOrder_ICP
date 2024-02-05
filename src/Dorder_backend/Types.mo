@@ -1,28 +1,26 @@
 module {
     public type ProductId = Text;
     public type UserId = Text;
-    public type Name = Text;
-    public type Discription = Text;
-    public type Price = Text;
-    public type StockLevel = Nat;
     public type SellerId = Text;
     public type Product = {
-        name : Name;
-        description : Discription;
-        price : Price;
-        categeoryId : [CategoryId];
-        stockLevel : StockLevel;
-        sellerInfo : SellerId;
+        productId:Text;
+        name : Text;
+        description : Text;
+        price : Text;
+        categeoryId : [Text];
+        stockLevel : Text;
+        sellerInfo : Text;
         images : Text;
         rating : Nat;
     };
-    
+
     type Email = Text;
     type Address = Text;
     public type User = {
         userId : UserId;
-        name : Name;
-        email : Email;
+        name : Text;
+        email : Text;
+        dob : Text;
         address : Address;
         orderHistory : [OrderId];
         walletAddress : Text;
@@ -31,6 +29,7 @@ module {
     public type Order = {
         orderId : OrderId;
         userId : UserId;
+        sellerId : SellerId;
         productList : [ProductId];
         totalAmount : Text;
         orderStatus : Text;
@@ -40,9 +39,18 @@ module {
     public type CategoryId = Text;
     public type Categories = {
         categoryId : CategoryId;
-        name : Name;
-        description : Discription;
+        name : Text;
+        description : Text;
         parentCategory : ?[Text];
         productIds : [ProductId];
+    };
+
+    public type Seller = {
+        sellerId : SellerId;
+        name : Text;
+        govId : Text;
+        address : Text;
+        productsListed : [ProductId];
+        revenue : Text;
     };
 };
