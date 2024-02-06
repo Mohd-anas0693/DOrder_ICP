@@ -2,11 +2,12 @@
   "canisters": {
     "backend": {
       "main": "src/Dorder_backend/main.mo",
-      "type": "motoko"
+      "type": "motoko",
+      "args": ""
     },
     "frontend": {
       "dependencies": [
-        "Dorder_backend"
+        "backend"
       ],
       "frontend": {
         "entrypoint": "src/Dorder_frontend/src/index.html"
