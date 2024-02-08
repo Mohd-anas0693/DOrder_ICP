@@ -9,7 +9,7 @@ module {
         price : Text;
         categeoryId : [Text];
         stockLevel : Text;
-        sellerInfo : SellerInfo;
+        sellerInfo : SellerId;
         images : Text;
         rating : Nat;
     };
@@ -38,8 +38,8 @@ module {
     public type OrderId = Text;
     public type Order = {
         orderId : OrderId;
-        userId : UserId;
-        sellerId : SellerId;
+        userId : UserId;    
+        sellerId : [SellerId];
         productList : [ProductId];
         totalAmount : Text;
         orderStatus : OrderStatus;

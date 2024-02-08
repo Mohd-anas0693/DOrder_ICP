@@ -47,6 +47,12 @@ actor {
     };
   };
 
+  func sellerIdExist(caller : Principal) : Bool {
+    switch (sellerMap.get(Principal.toText(caller))) {
+      case (null) { false };
+      case (?r) { true };
+    };
+  };
   public shared ({ caller }) func createSellerAccount(sellerData : Types.SellerRequest) : async Result {
     let userIdentity = Principal.toText(caller);
     let seller : Types.SellerInfo = {
@@ -61,20 +67,15 @@ actor {
     };
     try {
       Utils.checkAnonymous(caller);
-      sellerIdExist(caller, "Your seller Account Already exist");
+      if (sellerIdExist(caller) == true) {
+        Debug.trap("You already have account with this identity");
+      };
       sellerMap.put(userIdentity, seller);
       #ok("Sucessfully created the Account of Seller of Id:" # userIdentity);
     } catch (e) {
       let code = Error.code(e);
       let message = Error.message(e);
       #err(code, message);
-    };
-  };
-
-  func sellerIdExist(caller : Principal, errorMessage : Text) {
-    switch (Array.find<Text>(Iter.toArray(sellerMap.keys()), func(x) : Bool { x == Principal.toText(caller) })) {
-      case (null) { Debug.trap(errorMessage) };
-      case (?r) {};
     };
   };
 
@@ -102,7 +103,9 @@ actor {
     let sellerIdentity = Principal.toText(caller);
     try {
       Utils.checkAnonymous(caller);
-      sellerIdExist(caller, "No access to create the Product");
+      if (sellerIdExist(caller) == false) {
+        Debug.trap("No Acess you don't");
+      };
       let uuid = await Utils.getUuid();
       let productId : Types.ProductId = Principal.toText(caller) # "_" #uuid;
       putProductIdInSellerInfo(sellerIdentity, productId);
@@ -126,9 +129,29 @@ actor {
     };
   };
 
-  // public shared ({ caller }) func bookOrder(productIds : Types.ProductId) : async Text {
-  //   let userIdentity = Principal.toText(caller);
-  //   userIdExist(userIdentity, "no acess create You account first");
-  //   Text.split(productIds, #char '_');
-  // };
+  func fetchSellerIdFormProductId(productIds : [Types.ProductId]) : [Types.SellerId] {
+    var sellerIdList = List.nil<Text>();
+    for (product in productIds.vals()) {
+      let sellerId : [Text] = Iter.toArray(Text.split(product, #char '_'));
+      sellerIdList := List.push(sellerId[0], sellerIdList);
+    };
+    List.toArray(sellerIdList);
+  };
+
+  public shared ({ caller }) func createOrder(productIds : [Types.ProductId]) : async Result {
+    let orderId = await Utils.getUuid();
+    try {
+      Utils.checkAnonymous(caller);
+      let sellerIdArray = fetchSellerIdFormProductId(productIds);
+      #ok("ass");
+
+    } catch (e) {
+      let code = Error.code(e);
+      let message = Error.message(e);
+      #err(code, message);
+    };
+  };
+  public shared func createUuid() : async Text {
+    await Utils.getUuid();
+  };
 };
