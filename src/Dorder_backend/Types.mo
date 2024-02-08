@@ -3,26 +3,36 @@ module {
     public type UserId = Text;
     public type SellerId = Text;
     public type Product = {
-        productId:Text;
+        productId : Text;
         name : Text;
         description : Text;
         price : Text;
         categeoryId : [Text];
         stockLevel : Text;
-        sellerInfo : Text;
+        sellerInfo : SellerInfo;
         images : Text;
         rating : Nat;
     };
 
     type Email = Text;
     type Address = Text;
-    public type User = {
+    public type UserRequest = {
+        name : Text;
+        email : Text;
+        dob : Text;
+        address : Address;
+    };
+    public type OrderStatus = {
+        #canceled;
+        #delivered;
+    };
+    public type UserData = {
         userId : UserId;
         name : Text;
         email : Text;
         dob : Text;
         address : Address;
-        orderHistory : [OrderId];
+        orderHistory : [{ orderId : OrderId; status : OrderStatus }];
         walletAddress : Text;
     };
     public type OrderId = Text;
@@ -32,7 +42,7 @@ module {
         sellerId : SellerId;
         productList : [ProductId];
         totalAmount : Text;
-        orderStatus : Text;
+        orderStatus : OrderStatus;
         paymentInfo : Text;
         shippingDetails : Text;
     };
@@ -44,12 +54,21 @@ module {
         parentCategory : ?[Text];
         productIds : [ProductId];
     };
+    public type SellerRequest = {
+        name : Text;
+        govId : Text;
+        address : Text;
+        country : Text;
+        phoneNo : Text;
+    };
 
-    public type Seller = {
+    public type SellerInfo = {
         sellerId : SellerId;
         name : Text;
         govId : Text;
         address : Text;
+        country : Text;
+        phoneNo : Text;
         productsListed : [ProductId];
         revenue : Text;
     };
