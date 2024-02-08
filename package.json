@@ -38,6 +38,7 @@
     "react-router-dom": "^6.18.0",
     "svg-loader": "^0.0.2",
     "ts-loader": "^9.5.0"
+    
   },
   "devDependencies": {
     "assert": "2.0.0",

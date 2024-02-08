@@ -7,7 +7,7 @@ import Iter "mo:base/Iter";
 module {
 
     public func checkAnonymous(caller : Principal) {
-        if (Principal.isAnonymous(caller) == false) {
+        if (Principal.isAnonymous(caller) == true) {
             Debug.trap("No Access");
         };
     };
