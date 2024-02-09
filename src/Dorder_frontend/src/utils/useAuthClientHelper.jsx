@@ -9,6 +9,10 @@ export const useAuthClient = () => {
     const [identity, setIdentity] = useState(null);
     const [principal, setPrincipal] = useState(null);
 
+    const backendCanisterId =
+        process.env.CANISTER_ID_BACKEND ||
+        procedd.env.BACKEND_CANISTER_ID;
+
     const clientInfo = async (client) => {
         const isAuthenticated = await client.isAuthenticated();
         const identity = client.getIdentity();
@@ -62,20 +66,20 @@ export const useAuthClient = () => {
     }
 
     return {
-        login, logout, authClient, isAuthenticated, identity, principal
+        login, logout, authClient, isAuthenticated, identity, principal, backendCanisterId
     };
 }
 
 export const AuthProvider = ({ children }) => {
     const auth = useAuthClient();
-    console.log(auth)
-
-    if (!auth.isAuthenticated) {
-        auth.login();
-        if (window.location.pathname !== '/') {
-            window.location.href = "/";
+    useEffect(() => {
+        if (auth && auth?.isAuthenticated === false) {
+            auth.login();
+            if (window.location.pathname !== '/') {
+                window.location.href = "/";
+            }
         }
-    }
+    }, [auth]);
     return (
         <AuthContext.Provider value={auth}>
             {children}

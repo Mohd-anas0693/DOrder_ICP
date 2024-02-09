@@ -9,7 +9,7 @@ export const getValueByKeyFromString = (inputString, key) => {
   
       // Trim whitespace from key and value
       var lineKey = parts[0].trim();
-      var lineValue = parts[2] ? parts[2].trim() : "";
+      var lineValue = parts[1] ? parts[1].trim() : "";
   
       // Check if the current line's key matches the target key
       if (lineKey === key) {
