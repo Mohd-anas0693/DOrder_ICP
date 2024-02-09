@@ -19,5 +19,6 @@ dist/
 
 # environment variables
 .env
+canister_ids copy.json
 canister_ids.json
 .mops
