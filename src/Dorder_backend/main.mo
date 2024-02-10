@@ -57,7 +57,10 @@ actor {
     try {
       Utils.checkAnonymous(caller);
 
-      ignore Utils.getMapValue<Types.SellerId, Types.SellerInfo>(userIdentity, sellerMap, "You already have account");
+      switch (sellerMap.get(Principal.toText(caller))) {
+        case (?r) { Debug.trap("You already have an account") };
+        case (null) {};
+      };
 
       sellerMap.put(userIdentity, seller);
       #ok("Sucessfully created the Account of Seller of Id:" # userIdentity);
@@ -104,7 +107,7 @@ actor {
         images = product.images;
         rating = 0;
       };
-      productMap.put(sellerIdentity, productData);
+      productMap.put(productId, productData);
       #ok("Sucessfully Product of ProductId:" # productId # "and seller:" # sellerIdentity);
     } catch (e) {
       let code = Error.code(e);
@@ -197,6 +200,7 @@ actor {
     let sellerData : Types.SellerInfo = Utils.getMapValue<Types.SellerId, Types.SellerInfo>(sellerId, sellerMap, "You are not seller");
     var productList = List.nil<Types.Product>();
     for (productId in sellerData.productsListed.vals()) {
+      Debug.print(productId);
       let productInfo = Utils.getMapValue<Types.ProductId, Types.Product>(productId, productMap, "Invalid Product Id");
       productList := List.push(productInfo, productList);
     };
