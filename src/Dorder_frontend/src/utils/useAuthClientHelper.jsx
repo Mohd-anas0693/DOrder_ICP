@@ -73,7 +73,7 @@ export const useAuthClient = () => {
 export const AuthProvider = ({ children }) => {
     const auth = useAuthClient();
     useEffect(() => {
-        if (auth && auth?.isAuthenticated === false) {
+        if (!auth && !auth.isAuthenticated) {
             auth.login();
             if (window.location.pathname !== '/') {
                 window.location.href = "/";

@@ -1,0 +1,31 @@
+*   [33mc0f7fa5[m[33m ([m[1;35mrefs/stash[m[33m)[m On stable: stash\
+[31m|[m[32m\[m  
+[31m|[m * [33mf5e00c9[m index on stable: 3529a75 added auth
+[31m|[m[31m/[m  
+* [33m3529a75[m[33m ([m[1;36mHEAD -> [m[1;32mstable[m[33m, [m[1;31morigin/stable[m[33m)[m added auth
+*   [33m95fa8bc[m Merge branch 'stable' of https://github.com/Mohd-anas0693/DOrder_ICP into stable
+[33m|[m[34m\[m  
+[33m|[m * [33mab78644[m written get functions in backend and fixed minnor error on frontend
+* [34m|[m [33mf6c2c16[m Merge branch 'stable' of https://github.com/Mohd-anas0693/DOrder_ICP into stable
+[35m|[m[34m\[m[34m|[m 
+[35m|[m * [33m979e212[m a stable branch
+[35m|[m [36m|[m * [33mf5a0a67[m[33m ([m[1;32mjeevan42[m[33m)[m create seller done, functionality
+[35m|[m [36m|[m[35m/[m  
+[35m|[m[35m/[m[36m|[m   
+* [36m|[m [33mefe5b80[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m Merge pull request #8 from Mohd-anas0693/anasBackend
+[1;32m|[m[36m\[m[36m|[m 
+[1;32m|[m * [33m82c6bea[m fixed bugs
+* [1;33m|[m [33m083ae12[m Merge pull request #7 from Mohd-anas0693/anasBackend
+[1;34m|[m[1;33m\[m[1;33m|[m 
+[1;34m|[m *   [33mab59377[m Merge branch 'main' of https://github.com/Mohd-anas0693/DOrder_ICP into anasBackend
+[1;34m|[m [1;36m|[m[1;34m\[m  
+[1;34m|[m [1;36m|[m[1;34m/[m  
+[1;34m|[m[1;34m/[m[1;36m|[m   
+* [1;36m|[m   [33m7823975[m Merge pull request #6 from Mohd-anas0693/anasBackend
+[32m|[m[33m\[m [1;36m\[m  
+* [33m\[m [1;36m\[m   [33m51c7f95[m Merge pull request #5 from Mohd-anas0693/anasBackend
+[34m|[m[35m\[m [33m\[m [1;36m\[m  
+[34m|[m [35m|[m [33m|[m * [33me425e5d[m updated code of backend
+[34m|[m [35m|[m [33m|[m[33m/[m  
+[34m|[m [35m|[m * [33mcc15604[m added createProduct function and more optimised code
+[34m|[m [35m|[m[35m/[m  

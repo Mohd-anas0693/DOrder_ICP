@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { getValueByKeyFromString } from '../../utils/getMessage';
+import { createActor } from '../../../../declarations/backend/index';
 
-const SellerSignUp = () => {
+const SellerSignUp = ({identity, backendCanisterId}) => {
     const [name, setName] = useState('');
     const [govId, setGovId] = useState('');
     const [phone, setPhone] = useState('');
@@ -30,13 +32,38 @@ const SellerSignUp = () => {
         }
     };
 
+
+    const onBoardSeller = async () => {
+        try {
+            const backendActor = createActor(backendCanisterId, { agentOptions: { identity: identity } });
+            const res = await backendActor.createSellerAccount(
+                {
+                    name: name,
+                    govId: govId,
+                    address: address,
+                    country: country,
+                    phoneNo: phone,
+                }
+            );
+            console.log("response-of-create-seller", res);
+            return true;
+        } catch (error) {
+            console.log("error-in-create-seller", error)
+            let errMessage = getValueByKeyFromString(error.toString(), "Message");
+            console.log("errMessage-in-create-seller", errMessage)
+            return false;
+        }
+    };
     const handleSubmit = (e) => {
         e.preventDefault();
         // Do something with the form values
-        console.log(name, govId, phone, country, address);
-
-        
+        if(name && govId && phone && country && address){
+            onBoardSeller();
+        }else{
+            alert("Invalid Inputs");
+        }
     };
+
 
     return (
         <React.Fragment>

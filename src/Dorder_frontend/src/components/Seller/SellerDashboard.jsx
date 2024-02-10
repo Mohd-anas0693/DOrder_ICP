@@ -70,7 +70,7 @@ const SellerDashboard = () => {
             {isSeller ?
                 <h1>Seller Dashboard</h1>
                 : isSeller === false ?
-                    <SellerSignUp />
+                    <SellerSignUp identity={identity} backendCanisterId={backendCanisterId} />
                     : <h1>Loading...</h1>
             }
 
