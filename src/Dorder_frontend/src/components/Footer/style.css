@@ -1,5 +1,5 @@
-footer {
-  background-color: #0f3460;
+.footer {
+  background-image: linear-gradient(to right, #021b6d, #0685c5); /* Replace these hex colors with your desired gradient */
   padding: 80px 0;
   color: #fff;
 }

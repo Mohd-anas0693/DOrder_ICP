@@ -1,7 +1,7 @@
 /* Navbar Section  */
 .navbar {
   position: relative !important;
-  background-color: white;
+  background-image: linear-gradient(to right, #021b6d, #0685c5); /* Replace these hex colors with your desired gradient */
   transition: all 0.3s ease-out 0s !important;
   box-shadow: 0px 10px 10px 0px rgba(9, 5, 29, 0.171) !important;
   font-size: 1.2rem !important;
@@ -58,6 +58,9 @@
   opacity: 0.9 !important;
 }
 
+
+
+
 .navbar-toggler:not(.collapsed) span:nth-child(2) {
   height: 12px !important;
   visibility: hidden !important;
@@ -96,7 +99,7 @@
 .logo {
   font-size: 25px;
   font-weight: 500;
-  color: black;
+  color: white;
   margin: 0;
 }
 
@@ -111,10 +114,15 @@
 }
 
 .nav-link-label {
-  color: black;
+  color: white;
   font-size: 18px !important;
   font-weight: 600;
 }
+
+.nav-link-label:hover {
+  text-decoration: underline;
+}
+
 
 .nav-icon {
   width: 30px;
@@ -132,7 +140,7 @@
   position: absolute;
   right: 0;
   top: -5px;
-  background-color: #0f3460;
+  background-color: white;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -141,7 +149,7 @@
   height: 16px;
   font-size: 11px;
   font-weight: 600;
-  color: white;
+  color: black;
   z-index: 5;
 }
 

@@ -4,7 +4,7 @@ import "./navbar.css";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useAuth } from "../../utils/useAuthClientHelper";
-
+import logo from "../../../assets/logo.png"
 const NavBar = () => {
   const { logout } = useAuth();
   const { cartList } = useSelector((state) => state.cart);
@@ -38,10 +38,10 @@ const NavBar = () => {
       expand="md"
       className={isFixed ? "navbar fixed" : "navbar"}
     >
-      <Container className="navbar-container">
+      <Container className="navbar-container ">
         <Navbar.Brand to="/home">
-          <ion-icon name="bag"></ion-icon>
-          <h1 className="logo">Dorder</h1>
+        <img src={logo} alt="logo" className="w-[160px] h-[64px] logo"/>
+
         </Navbar.Brand>
         {/* Media cart and toggle */}
         <div className="d-flex">

@@ -11,7 +11,7 @@ html {
 }
 
 body {
-  background-color: #ffffff;
+  background-color: #e53838 !;
   margin: 0;
   font-family: "Lato", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -70,7 +70,7 @@ button {
 .homeSlide {
   display: flex;
   justify-content: center;
-  background-color: #f6f9fc;
+  background-color: #e3eaf0;
   padding-bottom: 0 !important;
 }
 
@@ -92,6 +92,7 @@ button {
     gap: 20px;
   }
 }
+
 
 .not-found {
   margin: 40px auto 20px;
