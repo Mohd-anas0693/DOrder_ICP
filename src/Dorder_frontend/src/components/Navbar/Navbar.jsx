@@ -3,8 +3,10 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 import "./navbar.css";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useAuth } from "../../utils/useAuthClientHelper";
 
 const NavBar = () => {
+  const { logout } = useAuth();
   const { cartList } = useSelector((state) => state.cart);
   const [expand, setExpand] = useState(false);
   const [isFixed, setIsFixed] = useState(false);
@@ -23,6 +25,13 @@ const NavBar = () => {
   //     setCartItem(JSON.parse(storedCart));
   //   }
   // },[])
+
+
+  const logoutHandle = async() => {
+    await logout().then(() => {
+      window.location.href= '/';
+    })
+  }
   return (
     <Navbar
       fixed="top"
@@ -30,7 +39,7 @@ const NavBar = () => {
       className={isFixed ? "navbar fixed" : "navbar"}
     >
       <Container className="navbar-container">
-        <Navbar.Brand to="/">
+        <Navbar.Brand to="/home">
           <ion-icon name="bag"></ion-icon>
           <h1 className="logo">Dorder</h1>
         </Navbar.Brand>
@@ -82,7 +91,7 @@ const NavBar = () => {
               <Link
                 aria-label="Go to Home Page"
                 className="navbar-link"
-                to="/"
+                to="/home"
                 onClick={() => setExpand(false)}
               >
                 <span className="nav-link-label">Home</span>
@@ -122,15 +131,15 @@ const NavBar = () => {
               </Link>
             </Nav.Item>
 
-            <Nav.Item>
-              <Link
+            <Nav.Item onClick={logoutHandle}>
+              {/* <Link
                 aria-label="Logout from the application"
                 className="navbar-link"
-                to="/"
+                to=""
                 onClick={() => setExpand(false)}
-              >
-                <span className="nav-link-label">Log Out</span>
-              </Link>
+              > */}
+                <span className="nav-link-label" style={{cursor: "pointer"}}>Log Out</span>
+              {/* </Link> */}
             </Nav.Item>
 
             <Nav.Item className="expanded-cart">

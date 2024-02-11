@@ -4,6 +4,7 @@ import { createActor } from '../../../../declarations/backend/index';
 import { getValueByKeyFromString } from '../../utils/getMessage';
 import { toast } from 'react-toastify';
 import SellerSignUp from '../Forms/SellerSignUp';
+import SellerProductsDashboard from './SellerProductsDashboard';
 
 const SellerDashboard = () => {
     const { identity, backendCanisterId } = useAuth();
@@ -38,17 +39,17 @@ const SellerDashboard = () => {
             const res = await backendActor.getSellerInfo();
             console.log("res", res);
             if (res) {
-                setIsSeller(true);
+                if(res === 'you are not seller'){
+                    return false;
+                }
                 return true;
             } else {
-                setIsSeller(false);
                 return false;
             }
         } catch (error) {
-            let errMessage = await getValueByKeyFromString(error.toString(), "Message");
+            let errMessage = await getValueByKeyFromString(error.toString(), "Reject text");
             console.log("errMessage", errMessage);
             toast.error(errMessage);
-            setIsSeller(false);
             return false;
 
         }
@@ -57,7 +58,8 @@ const SellerDashboard = () => {
 
     useEffect(() => {
         if (identity && backendCanisterId) {
-            checkIfSeller();
+            const res = checkIfSeller();
+            setIsSeller(res);
             // const actor = createActor(identity);
             // actor.getProducts().then((products) => {
             //     setProducts(products);
@@ -68,12 +70,11 @@ const SellerDashboard = () => {
     return (
         <div className='h-full w-full py-16 flex justify-center items-center'>
             {isSeller ?
-                <h1>Seller Dashboard</h1>
+                <SellerProductsDashboard identity={identity} backendCanisterId={backendCanisterId} />
                 : isSeller === false ?
                     <SellerSignUp identity={identity} backendCanisterId={backendCanisterId} />
                     : <h1>Loading...</h1>
             }
-
             {/* <button onClick={() => setModalOpen(true)}>Add Product</button> */}
 
         </div>

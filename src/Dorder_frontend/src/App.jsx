@@ -8,7 +8,7 @@ import Loader from "./components/Loader/Loader";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SellerDashboard from "./components/Seller/SellerDashboard";
-import { createActor } from "../../declarations/backend/index";
+import Welcome from "./components/Welcome";
 const Home = lazy(() => import("./pages/Home"));
 const Shop = lazy(() => import("./pages/Shop"));
 const Cart = lazy(() => import("./pages/Cart"));
@@ -33,7 +33,8 @@ function App() {
         />
         <NavBar />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Welcome />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/seller_dashboard" element={<SellerDashboard />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/shop/:id" element={<Product />} />

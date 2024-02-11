@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { getValueByKeyFromString } from '../../utils/getMessage';
 import { createActor } from '../../../../declarations/backend/index';
 
-const SellerSignUp = ({identity, backendCanisterId}) => {
+const SellerSignUp = ({ identity, backendCanisterId }) => {
     const [name, setName] = useState('');
     const [govId, setGovId] = useState('');
     const [phone, setPhone] = useState('');
@@ -36,7 +36,7 @@ const SellerSignUp = ({identity, backendCanisterId}) => {
     const onBoardSeller = async () => {
         try {
             const backendActor = createActor(backendCanisterId, { agentOptions: { identity: identity } });
-            const res = await backendActor.createSellerAccount(
+            await backendActor.createSellerAccount(
                 {
                     name: name,
                     govId: govId,
@@ -44,12 +44,15 @@ const SellerSignUp = ({identity, backendCanisterId}) => {
                     country: country,
                     phoneNo: phone,
                 }
-            );
-            console.log("response-of-create-seller", res);
+            ).then((res) => {
+                navigate('/');
+            }).catch((err) => {
+                console.log("err", err)
+            });
             return true;
         } catch (error) {
+            let errMessage = getValueByKeyFromString(error.toString(), "Reject text");
             console.log("error-in-create-seller", error)
-            let errMessage = getValueByKeyFromString(error.toString(), "Message");
             console.log("errMessage-in-create-seller", errMessage)
             return false;
         }
@@ -57,9 +60,9 @@ const SellerSignUp = ({identity, backendCanisterId}) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         // Do something with the form values
-        if(name && govId && phone && country && address){
+        if (name && govId && phone && country && address) {
             onBoardSeller();
-        }else{
+        } else {
             alert("Invalid Inputs");
         }
     };

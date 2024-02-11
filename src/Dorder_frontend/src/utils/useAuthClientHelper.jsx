@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { AuthClient } from "@dfinity/auth-client";
-
+import Welcome from "../components/Welcome";
 const AuthContext = createContext();
 
 export const useAuthClient = () => {
@@ -72,14 +72,14 @@ export const useAuthClient = () => {
 
 export const AuthProvider = ({ children }) => {
     const auth = useAuthClient();
-    useEffect(() => {
-        if (!auth && !auth.isAuthenticated) {
-            auth.login();
-            if (window.location.pathname !== '/') {
-                window.location.href = "/";
-            }
-        }
-    }, [auth]);
+    if (!auth.isAuthenticated) {
+        return (
+        <AuthContext.Provider value={auth}>
+            <Welcome />
+        </AuthContext.Provider>
+        )
+    }
+
     return (
         <AuthContext.Provider value={auth}>
             {children}
