@@ -23,6 +23,9 @@ const AddProduct = ({ setAddProductModal, addProductHandler }) => {
             case 'stock':
                 setStock(value);
                 break;
+            case 'image':
+                setImage(value);
+                break;
             case 'shortDesc':
                 setShortDesc(value);
                 break;
@@ -123,8 +126,8 @@ const AddProduct = ({ setAddProductModal, addProductHandler }) => {
                             <input type="number" min={0} name="stock" id="stock" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="1" required="true" value={stock} onChange={handleInputChange} />
                         </div>
                         <div>
-                            <label htmlFor="image" className="block mb-2 text-sm font-medium text-gray-900">Image</label>
-                            <input type="file" name="image" id="image" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Image Url" required="true" value={image} onChange={(e) => handleImageChange(e)} />
+                            <label htmlFor="image" className="block mb-2 text-sm font-medium text-gray-900">Image URL</label>
+                            <input type="text" name="image" id="image" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Image Url" required="true" value={image} onChange={handleInputChange} />
                         </div>
                         <div>
                             <label htmlFor="shortDesc" className="block mb-2 text-sm font-medium text-gray-900">Short Description</label>
