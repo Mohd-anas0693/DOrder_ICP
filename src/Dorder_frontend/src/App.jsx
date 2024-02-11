@@ -33,7 +33,7 @@ function App() {
         />
         <NavBar />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Welcome />} />
           <Route path="/home" element={<Home />} />
           <Route path="/seller_dashboard" element={<SellerDashboard />} />
           <Route path="/shop" element={<Shop />} />

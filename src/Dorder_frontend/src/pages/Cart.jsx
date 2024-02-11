@@ -18,6 +18,7 @@ import { createActor } from "../../../declarations/backend/index";
 import { toast } from "react-toastify";
 import UserSignUp from "../components/Forms/UserSignUp";
 import { useNavigate } from "react-router-dom";
+import WalletModal from "../utils/WalletModal";
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -34,6 +35,9 @@ const Cart = () => {
   const [isUserExist, setIsUserExist] = useState(null);
   const { backendCanisterId, identity } = useAuth();
   const [signUpUserModal, setSignUpUserModal] = useState(false);
+  const [showWalletModal, setShowWalletModal] = useState(false);
+
+
   useEffect(() => {
     window.scrollTo(0, 0);
     // if(CartItem.length ===0) {
@@ -99,27 +103,28 @@ const Cart = () => {
   };
 
   const placeOrderHandler = async () => {
-    try {
-      const backendActor = createActor(backendCanisterId, {
-        agentOptions: { identity: identity },
-      });
-      await backendActor
-        .createOrder("1234")
-        .then((res) => {
-          toast.success("Order Placed");
-          return true;
-        })
-        .catch((err) => {
-          console.log("err", err);
-          return false;
-        });
-      return true;
-    } catch (error) {
-      let errMessage = getValueByKeyFromString(error.toString(), "Reject text");
-      console.log("error-in-place-order", error);
-      console.log("errMessage-in-place-order", errMessage);
-      return false;
-    }
+    setShowWalletModal(true);
+    // try {
+    //   const backendActor = createActor(backendCanisterId, {
+    //     agentOptions: { identity: identity },
+    //   });
+    //   await backendActor
+    //     .createOrder("1234")
+    //     .then((res) => {
+    //       toast.success("Order Placed");
+    //       return true;
+    //     })
+    //     .catch((err) => {
+    //       console.log("err", err);
+    //       return false;
+    //     });
+    //   return true;
+    // } catch (error) {
+    //   let errMessage = getValueByKeyFromString(error.toString(), "Reject text");
+    //   console.log("error-in-place-order", error);
+    //   console.log("errMessage-in-place-order", errMessage);
+    //   return false;
+    // }
   };
 
   // const createTokenActor = (canisterId) => {
@@ -202,6 +207,11 @@ const Cart = () => {
   }, [backendCanisterId, identity]);
 
   console.log(isUserExist);
+
+
+  const paymentHandler = () => {
+    console.log("paymentHandler");
+  }
   return (
     <section className="cart-items">
       <Container>
@@ -302,6 +312,7 @@ const Cart = () => {
           </Col>
         </Row>
       </Container>
+      <WalletModal show={showWalletModal} onHide={() => setShowWalletModal(false)} paymentHandler={paymentHandler}/> 
     </section>
   );
 };
