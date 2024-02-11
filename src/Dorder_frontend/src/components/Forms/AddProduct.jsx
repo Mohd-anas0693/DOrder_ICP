@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import imageCompression from "browser-image-compression";
 
 const AddProduct = ({ setAddProductModal, addProductHandler }) => {
     const [name, setName] = useState('');
@@ -21,9 +22,6 @@ const AddProduct = ({ setAddProductModal, addProductHandler }) => {
                 break;
             case 'stock':
                 setStock(value);
-                break;
-            case 'image':
-                setImage(value);
                 break;
             case 'shortDesc':
                 setShortDesc(value);
@@ -60,6 +58,43 @@ const AddProduct = ({ setAddProductModal, addProductHandler }) => {
         setDescription('');
         setAddProductModal(false);
     }
+
+
+    const CompressedImage = async (file) => {
+        try {
+            const options = {
+                maxSizeMB: 0.6,
+                maxWidthOrHeight: 1024,
+                useWebWorker: false,
+            };
+            const compressedBlob = await imageCompression(file, options);
+            const compressedFile = new File([compressedBlob], file.name, {
+                type: file.type,
+            });
+            console.log("Compressed File:", compressedFile);
+            return compressedFile;
+        } catch (error) {
+            console.error("Error compressing image:", error);
+            throw error;
+        }
+    };
+
+
+
+    const handleImageChange = async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            try {
+                const compressedFile = await CompressedImage(file);
+                const reader = new FileReader();
+                reader.readAsDataURL(compressedFile);
+                console.log("Compressed File:", compressedFile);
+                console.log("reader", reader);
+            } catch (error) {
+                console.error("Error during image processing:", error);
+            }
+        }
+    };
     return (
         <React.Fragment>
             <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
@@ -89,7 +124,7 @@ const AddProduct = ({ setAddProductModal, addProductHandler }) => {
                         </div>
                         <div>
                             <label htmlFor="image" className="block mb-2 text-sm font-medium text-gray-900">Image</label>
-                            <input type="text" name="image" id="image" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Image Url" required="true" value={image} onChange={handleInputChange} />
+                            <input type="file" name="image" id="image" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Image Url" required="true" value={image} onChange={(e) => handleImageChange(e)} />
                         </div>
                         <div>
                             <label htmlFor="shortDesc" className="block mb-2 text-sm font-medium text-gray-900">Short Description</label>
@@ -102,7 +137,7 @@ const AddProduct = ({ setAddProductModal, addProductHandler }) => {
 
                         <div className='flex gap-2 justify-center px-2'>
                             <button type="submit" disabled={isLoading} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                {isLoading ? `Submitting...`: `Add Product`}
+                                {isLoading ? `Submitting...` : `Add Product`}
                             </button>
                             <button onClick={closeFormHandler} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                 Cancel
