@@ -21,15 +21,35 @@ const Home = () => {
   // const bestSales = products.filter((item) => item.category === "sofa");
 
   const [newArrivalData, setNewArrivalData] = useState([]);
-   
+
   useWindowScrollToTop();
+
+  function convertDiscountToInteger(products) {
+    return products.map(product => {
+      // Check if the discount field exists and is a BigInt type
+      if (product.discount !== undefined && typeof product.discount === 'bigint') {
+        // Convert the discount field to an integer
+        product.discount = Number(product.discount);
+      }
+      if (product.stockLevel !== undefined && typeof product.stockLevel === 'bigint') {
+        // Convert the discount field to an integer
+        product.stockLevel = Number(product.stockLevel);
+      }
+      if (product.price !== undefined && typeof product.price === 'bigint') {
+        // Convert the discount field to an integer
+        product.price = Number(product.price);
+      }
+      return product;
+    });
+  }
 
   const fetchNewArrivals = async () => {
     try {
       const backendActor = createActor(backendCanisterId, { agentOptions: { identity: identity } });
       await backendActor.getAllProducts().then((res) => {
         console.log("res-in-success-ALL-GETPRODUCTS", res)
-        setNewArrivalData(res);
+        let sortedArray = convertDiscountToInteger(res);
+        setNewArrivalData(sortedArray);
       }).catch((err) => {
         setNewArrivalData([]);
         console.log("res-in-success-ALL-GETPRODUCTS", err)
