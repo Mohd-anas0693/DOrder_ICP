@@ -1,9 +1,9 @@
-import {
-  idlFactory,
-  createActor as ledgerActor,
-} from "../../../Dorder_backend/ledger.did";
-import { Actor, HttpAgent } from "@dfinity/agent";
-import { Principal } from "@dfinity/principal";
+// import {
+//   idlFactory,
+//   createActor as ledgerActor,
+// } from "../../../Dorder_backend/ledger.did";
+// import { Actor, HttpAgent } from "@dfinity/agent";
+// import { Principal } from "@dfinity/principal";
 import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,9 +29,9 @@ const Cart = () => {
     (price, item) => price + item.qty * item.price,
     0
   );
-  const [userBalance, setUserBalance] = useState(0);
-  const [tokenActor, setTokenActor] = useState(null);
-  const [metaData, setMetaData] = useState();
+  // const [userBalance, setUserBalance] = useState(0);
+  // const [tokenActor, setTokenActor] = useState(null);
+  // const [metaData, setMetaData] = useState();
   const [isUserExist, setIsUserExist] = useState(null);
   const { backendCanisterId, identity } = useAuth();
   const [signUpUserModal, setSignUpUserModal] = useState(false);
@@ -127,71 +127,72 @@ const Cart = () => {
     // }
   };
 
-  const createTokenActor = (canisterId) => {
-    let identity = identity;
+  // const createTokenActor = (canisterId) => {
+  //   let identity = identity;
 
-    let tokenActor = Actor.createActor(idlFactory, {
-      agentOptions: { identity: identity },
-      canisterId,
-    });
-    return tokenActor;
-  };
-  const getUserBalance = async () => {
-    await createTokenActor(icpLedger).then(async (res) => {
-      setTokenActor(res);
-      setUserBalance(
-        await res.icrc1_balance_of({ owner: identity, subaccount: [] })
-      );
-      console.log(userBalance);
-      await res
-        .icrc1_metadata()
-        .then((r) => {
-          console.log(r);
-          setMetaData(formatTokenMetaData(r));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    });
-  };
+  //   let tokenActor = Actor.createActor(idlFactory, {
+  //     agentOptions: { identity: identity },
+  //     canisterId,
+  //   });
+  //   return tokenActor;
+  // };
+  // const getUserBalance = async () => {
+  //   await createTokenActor(Principal.fromText("ryjl3-tyaaa-aaaaa-aaaba-cai")).then(async (res) => {
+  //     setTokenActor(res);
+  //     setUserBalance(
+  //       await res.icrc1_balance_of({ owner: identity, subaccount: [] })
+  //     );
+  //     console.log(res);
+  //     console.log("userbalance" + userBalance);
+  //     await res
+  //       .icrc1_metadata()
+  //       .then((r) => {
+  //         console.log(r);
+  //         setMetaData(formatTokenMetaData(r));
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   });
+  // };
 
-  const formatTokenMetaData = (arr) => {
-    const resultObject = {};
-    arr.forEach((item) => {
-      const key = item[0];
-      const value = item[1][Object.keys(item[1])[0]]; // Extracting the value from the nested object
-      resultObject[key] = value;
-    });
-    return resultObject;
-  };
+  // const formatTokenMetaData = (arr) => {
+  //   const resultObject = {};
+  //   arr.forEach((item) => {
+  //     const key = item[0];
+  //     const value = item[1][Object.keys(item[1])[0]]; // Extracting the value from the nested object
+  //     resultObject[key] = value;
+  //   });
+  //   return resultObject;
+  // };
 
-  const transfer = async (sendAmount, sendPrincipal) => {
-    console.log("metaData[decimals]", metaData);
-    let amnt = parseInt(
-      Number(sendAmount) * Math.pow(10, parseInt(metaData?.["icrc1:decimals"]))
-    );
+  // const transfer = async (sendAmount, sendPrincipal) => {
+  //   console.log("metaData[decimals]", metaData);
+  //   let amnt = parseInt(
+  //     Number(sendAmount) * Math.pow(10, parseInt(metaData?.["icrc1:decimals"]))
+  //   );
 
-    console.log("amount", amnt);
-    if (Balance >= amnt) {
-      let transaction = {
-        amount: amnt,
-        from_subaccount: [],
-        to: {
-          owner: Principal.fromText(sendPrincipal),
-          subaccount: [],
-        },
-        fee: [metaData?.["icrc1:fee"]],
-        memo: [],
-        created_at_time: [],
-      };
-      console.log("metadata inside transfer fee", metaData?.["icrc1:fee"]);
-      let response = await tokenActor.icrc1_transfer(transaction);
-      console.log(response);
-      alert("transaction successful!");
-    } else {
-      alert("Insufficient balance");
-    }
-  };
+  //   console.log("amount", amnt);
+  //   if (Balance >= amnt) {
+  //     let transaction = {
+  //       amount: amnt,
+  //       from_subaccount: [],
+  //       to: {
+  //         owner: Principal.fromText(sendPrincipal),
+  //         subaccount: [],
+  //       },
+  //       fee: [metaData?.["icrc1:fee"]],
+  //       memo: [],
+  //       created_at_time: [],
+  //     };
+  //     console.log("metadata inside transfer fee", metaData?.["icrc1:fee"]);
+  //     let response = await  createTokenActor("ryjl3-tyaaa-aaaaa-aaaba-cai").icrc1_transfer(transaction);
+  //     console.log(response);
+  //     alert("transaction successful!");
+  //   } else {
+  //     alert("Insufficient balance");
+  //   }
+  // };
 
   useEffect(() => {
     console.log("cartList", cartList);
@@ -200,9 +201,9 @@ const Cart = () => {
         const response = await isAlreadyUserExist();
         console.log(response);
       })();
+      // setTokenActor(createTokenActor("ryjl3-tyaaa-aaaaa-aaaba-cai"));
+      // getUserBalance();
     }
-    setTokenActor(createTokenActor(icpLedger));
-    getUserBalance();
   }, [backendCanisterId, identity]);
 
   console.log(isUserExist);
