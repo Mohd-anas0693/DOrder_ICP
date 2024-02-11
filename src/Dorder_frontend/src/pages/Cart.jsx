@@ -45,22 +45,15 @@ const Cart = () => {
     //   setCartItem(JSON.parse(storedCart));
     // }
   }, []);
-  const icpLedger = "ryjl3-tyaaa-aaaaa-aaaba-cai";
+  // const icpLedger = "ryjl3-tyaaa-aaaaa-aaaba-cai";
   const isAlreadyUserExist = async () => {
     let backendActor = createActor(backendCanisterId, {
       agentOptions: { identity: identity },
     });
     try {
-      const res = await backendActor.getUserInfo();
+      const res = await backendActor.getUserStatus();
       console.log("res", res);
-      if (res) {
-        if (res === "You are not user") {
-          return false;
-        }
-        return true;
-      } else {
-        return false;
-      }
+     return res
     } catch (error) {
       let errMessage = await getValueByKeyFromString(
         error.toString(),
@@ -200,6 +193,7 @@ const Cart = () => {
       (async () => {
         const response = await isAlreadyUserExist();
         console.log(response);
+        setIsUserExist(response);
       })();
       // setTokenActor(createTokenActor("ryjl3-tyaaa-aaaaa-aaaba-cai"));
       // getUserBalance();
@@ -284,7 +278,7 @@ const Cart = () => {
               </div>
             </div>
 
-            {isUserExist ? (
+            {isUserExist === true ? (
               cartList && cartList.length > 0 ? (
                 <button
                   onClick={() => placeOrderHandler()}

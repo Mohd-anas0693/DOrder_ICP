@@ -198,6 +198,15 @@ actor {
     Utils.getMapValue<Types.UserId, Types.UserData>(userId, userMap, "You are not user");
   };
 
+   public shared query ({ caller }) func getUserStatus() : async Types.UserData {
+    let userId : Types.UserId = Principal.toText(caller);
+    // Utils.getMapValue<Types.UserId, Types.UserData>(userId, userMap, "You are not user");
+     switch (userMap.get(userId)) {
+      case (?UserData) { true };
+      case (null) { false };
+    };
+  };
+
   public shared query ({ caller }) func getSellerInfo() : async Types.SellerInfo {
     let sellerId : Types.SellerId = Principal.toText(caller);
     Utils.getMapValue<Types.SellerId, Types.SellerInfo>(sellerId, sellerMap, "you are not seller");
