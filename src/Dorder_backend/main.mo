@@ -198,7 +198,7 @@ actor {
     Utils.getMapValue<Types.UserId, Types.UserData>(userId, userMap, "You are not user");
   };
 
-   public shared query ({ caller }) func getUserStatus() : async Types.UserData {
+   public shared query ({ caller }) func getUserStatus() : async Bool{
     let userId : Types.UserId = Principal.toText(caller);
     // Utils.getMapValue<Types.UserId, Types.UserData>(userId, userMap, "You are not user");
      switch (userMap.get(userId)) {
