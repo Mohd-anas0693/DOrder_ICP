@@ -8,6 +8,7 @@ const AddProduct = ({ setAddProductModal, addProductHandler }) => {
     const [category, setCategory] = useState('sofa');
     const [shortDesc, setShortDesc] = useState('');
     const [description, setDescription] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -37,10 +38,12 @@ const AddProduct = ({ setAddProductModal, addProductHandler }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setIsLoading(true);
         // Do something with the form values
         if (name && price && stock && image && category && shortDesc && description) {
             addProductHandler({ name, price, stock, image, category, shortDesc, description });
         } else {
+            setIsLoading(false);
             alert("Invalid Inputs");
         }
     };
@@ -71,18 +74,18 @@ const AddProduct = ({ setAddProductModal, addProductHandler }) => {
                         </div>
                         <div>
                             <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900">Category</label>
-                            <select className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full' name="category" id="category" defaultValue={category} onChange={() => setCategory(e.target.value)}>
+                            <select className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full' name="category" id="category" defaultValue={category} onChange={(e) => setCategory(e.target.value)}>
                                 <option value="sofa">Sofa</option>
                                 <option value="mobile">Mobile</option>
                             </select>
                         </div>
                         <div>
                             <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900">Price (In ICP)</label>
-                            <input type="number" name="price" id="price" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="1" required="true" value={price} onChange={handleInputChange} />
+                            <input type="number" min={0} name="price" id="price" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="1" required="true" value={price} onChange={handleInputChange} />
                         </div>
                         <div>
                             <label htmlFor="stock" className="block mb-2 text-sm font-medium text-gray-900">Stock Available</label>
-                            <input type="number" name="stock" id="stock" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="1" required="true" value={stock} onChange={handleInputChange} />
+                            <input type="number" min={0} name="stock" id="stock" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="1" required="true" value={stock} onChange={handleInputChange} />
                         </div>
                         <div>
                             <label htmlFor="image" className="block mb-2 text-sm font-medium text-gray-900">Image</label>
@@ -98,8 +101,8 @@ const AddProduct = ({ setAddProductModal, addProductHandler }) => {
                         </div>
 
                         <div className='flex gap-2 justify-center px-2'>
-                            <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                Add Product
+                            <button type="submit" disabled={isLoading} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                {isLoading ? `Submitting...`: `Add Product`}
                             </button>
                             <button onClick={closeFormHandler} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                 Cancel
