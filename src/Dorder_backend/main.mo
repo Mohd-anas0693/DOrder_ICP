@@ -8,7 +8,6 @@ import Array "mo:base/Array";
 import Iter "mo:base/Iter";
 import List "mo:base/List";
 import Nat "mo:base/Nat";
-// import Payment "smartContract";
 
 import Utils "utils";
 import Types "Types";
@@ -96,17 +95,26 @@ actor {
       ignore Utils.getMapValue<Types.SellerId, Types.SellerInfo>(sellerIdentity, sellerMap, "No Access");
       let uuid = await Utils.getUuid();
       let productId : Types.ProductId = Principal.toText(caller) # "_" #uuid;
+      func texter(x : Text) : Nat {
+        let number : Nat = switch (Nat.fromText(x)) {
+          case (?value) { value };
+          case (null) { Debug.trap("not in nat format") };
+        };
+      };
       putProductIdInSellerInfo(sellerIdentity, productId);
       let productData : Types.Product = {
-        productId;
-        name = product.name;
-        description = product.description;
-        price = product.price;
-        categeoryId = [""];
-        stockLevel = product.stockLevel;
+        id = productId;
         sellerId = sellerIdentity;
-        images = product.images;
-        rating = 0;
+        productName = product.name;
+        imgUrl = product.images;
+        categeory = product.categeory;
+        price = texter(product.price);
+        stockLevel = texter(product.stockLevel);
+        discount = 0;
+        shortDesc = product.shortDes;
+        description = product.description;
+        reviews = [];
+        avgRating = "5";
       };
       productMap.put(productId, productData);
       #ok("Sucessfully Product of ProductId:" # productId # "and seller:" # sellerIdentity);
@@ -219,5 +227,9 @@ actor {
   };
   public func getOrderDataByOrderId(orderId : Types.OrderId) : async Types.Order {
     Utils.getMapValue<Types.OrderId, Types.Order>(orderId, orderMap, "No Order of This id found");
+  };
+  public shared query ({ caller }) func getAllProducts() : async [Types.Product] {
+    ignore Utils.getMapValue<Types.UserId, Types.UserData>(Principal.toText(caller), userMap, "No User Of this Id Found");
+    Iter.toArray(productMap.vals());
   };
 };
