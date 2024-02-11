@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { getValueByKeyFromString } from '../../utils/getMessage';
 import { createActor } from '../../../../declarations/backend/index';
-
+import { useNavigate } from 'react-router-dom';
 const SellerSignUp = ({ identity, backendCanisterId }) => {
+    const { navigate } = useNavigate();
     const [name, setName] = useState('');
     const [govId, setGovId] = useState('');
     const [phone, setPhone] = useState('');
@@ -31,7 +32,6 @@ const SellerSignUp = ({ identity, backendCanisterId }) => {
                 break;
         }
     };
-
 
     const onBoardSeller = async () => {
         try {

@@ -105,13 +105,13 @@ actor {
       let productData : Types.Product = {
         id = productId;
         sellerId = sellerIdentity;
-        productName = product.name;
-        imgUrl = product.images;
-        categeory = product.categeory;
+        productName = product.productName;
+        imgUrl = product.imgUrl;
+        category = product.category;
         price = texter(product.price);
         stockLevel = texter(product.stockLevel);
         discount = 0;
-        shortDesc = product.shortDes;
+        shortDesc = product.shortDesc;
         description = product.description;
         reviews = [];
         avgRating = "5";
@@ -199,6 +199,16 @@ actor {
     let sellerId : Types.SellerId = Principal.toText(caller);
     Utils.getMapValue<Types.SellerId, Types.SellerInfo>(sellerId, sellerMap, "you are not seller");
   };
+
+  public shared query ({ caller }) func getSellerStatus() : async Bool {
+    let sellerId : Types.SellerId = Principal.toText(caller);
+    // Utils.getMapValue<Types.SellerId, Types.SellerInfo>(sellerId, sellerMap, "you are not seller");
+    switch (sellerMap.get(sellerId)) {
+      case (?sellerInfo) { true };
+      case (null) { false };
+    };
+  };
+
   public shared query ({ caller }) func getProductInfo(productId : Types.ProductId) : async Types.Product {
     let userIdentity = Principal.toText(caller);
     Utils.getMapValue<Types.ProductId, Types.Product>(productId, productMap, "Invalid Product Id");
@@ -229,7 +239,7 @@ actor {
     Utils.getMapValue<Types.OrderId, Types.Order>(orderId, orderMap, "No Order of This id found");
   };
   public shared query ({ caller }) func getAllProducts() : async [Types.Product] {
-    ignore Utils.getMapValue<Types.UserId, Types.UserData>(Principal.toText(caller), userMap, "No User Of this Id Found");
+    // ignore Utils.getMapValue<Types.UserId, Types.UserData>(Principal.toText(caller), userMap, "No User Of this Id Found");
     Iter.toArray(productMap.vals());
   };
 };

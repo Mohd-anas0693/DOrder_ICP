@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Wrapper from "../components/wrapper/Wrapper";
 import Section from "../components/Section";
 import { AuthClient } from "@dfinity/auth-client";
@@ -20,34 +20,18 @@ const Home = () => {
   // );
   // const bestSales = products.filter((item) => item.category === "sofa");
 
-  const newArrivalData = [
-    {
-      id: "01",
-      productName: "Stone and Beam Westview ",
-      imgUrl: "https://m.media-amazon.com/images/I/71zrJZ7e3GL._AC_UL320_.jpg",
-      category: "sofa",
-      price: 193,
-      shortDesc:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur iure quas illo voluptates labore tempore!",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio nostrum accusantium iste, voluptas cumque provident! Consequatur officiis animi rem tempore voluptate cumque hic similique aperiam ut consectetur distinctio repudiandae quia quam quos, quas illo, iusto, necessitatibus odio veniam exercitationem quis voluptatibus debitis laboriosam! Esse debitis obcaecati blanditiis at impedit quibusdam!",
-      reviews: [
-        {
-          rating: 4.7,
-          text: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-        },
-      ],
-      avgRating: 4.5,
-    },
-  ];
+  const [newArrivalData, setNewArrivalData] = useState([]);
+   
   useWindowScrollToTop();
 
   const fetchNewArrivals = async () => {
     try {
       const backendActor = createActor(backendCanisterId, { agentOptions: { identity: identity } });
-      await backendActor.d().then((res) => {
+      await backendActor.getAllProducts().then((res) => {
         console.log("res-in-success-ALL-GETPRODUCTS", res)
+        setNewArrivalData(res);
       }).catch((err) => {
+        setNewArrivalData([]);
         console.log("res-in-success-ALL-GETPRODUCTS", err)
       });
       return true;
@@ -55,6 +39,7 @@ const Home = () => {
       let errMessage = getValueByKeyFromString(error.toString(), "Message");
       console.log("error-in-ALL-GETPRODUCTS", error)
       console.log("errMessage-in-ALL-GETPRODUCTS", errMessage)
+      setNewArrivalData([]);
       return false;
     }
   };
