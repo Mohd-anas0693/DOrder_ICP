@@ -12,6 +12,9 @@ import Nat "mo:base/Nat";
 import Utils "utils";
 import Types "Types";
 actor {
+  let icpLedger = "ryjl3-tyaaa-aaaaa-aaaba-cai";
+  let ckBtcLedger = "mxzaz-hqaaa-aaaar-qaada-cai";
+  let ckEthLedger = "ss2fx-dyaaa-aaaar-qacoq-cai";
 
   type Result = Result.Result<(Text), (Error.ErrorCode, Text)>;
 
