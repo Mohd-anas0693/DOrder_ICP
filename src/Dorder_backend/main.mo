@@ -88,7 +88,7 @@ actor {
     sellerMap.put(sellerId, updatedSellerInfo);
   };
 
-  public shared ({ caller }) func createProductItem(product : Types.Product) : async Result {
+  public shared ({ caller }) func createProductItem(product : Types.ProductRequest) : async Result {
     let sellerIdentity = Principal.toText(caller);
     try {
       Utils.checkAnonymous(caller);
@@ -101,7 +101,7 @@ actor {
         name = product.name;
         description = product.description;
         price = product.price;
-        categeoryId = product.categeoryId;
+        categeoryId = [""];
         stockLevel = product.stockLevel;
         sellerId = sellerIdentity;
         images = product.images;

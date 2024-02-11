@@ -14,6 +14,14 @@ module {
         rating : Nat;
     };
 
+    public type ProductRequest = {
+        name : Text;
+        description : Text;
+        price : Nat;
+        stockLevel : Text;
+        images : Text;
+    };
+
     type Email = Text;
     type Address = Text;
     public type UserRequest = {
@@ -39,7 +47,7 @@ module {
     public type OrderId = Text;
     public type Order = {
         orderId : OrderId;
-        userId : UserId;    
+        userId : UserId;
         sellerId : [SellerId];
         productList : [ProductId];
         totalAmount : Nat;
