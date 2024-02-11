@@ -1,6 +1,6 @@
 .wrapper {
   text-align: center;
-  background-color: white;
+  background-image: linear-gradient(to right, #021b6d, #0685c5); 
 }
 
 .icon {
@@ -11,7 +11,7 @@
   align-items: center;
   border-radius: 50%;
   font-size: 25px;
-  background: #f3f5f9;
+  background: white;
   margin: 20px auto;
 }
 

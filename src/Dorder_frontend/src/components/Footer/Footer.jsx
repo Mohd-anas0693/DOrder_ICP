@@ -1,51 +1,56 @@
-import React from "react"
-import "./style.css"
-import { Col, Container, Row } from "react-bootstrap"
-
+import React from "react";
+import "./style.css";
+import { Col, Container, Row } from "react-bootstrap";
+import icp from "../../../assets/image 32.png";
 const Footer = () => {
   return (
-    <footer>
-        <Container>
-          <Row className="footer-row">
-            <Col md={3} sm={5} className='box'>
-              <div className="logo">
-                  <ion-icon name="bag"></ion-icon>
-                  <h1>Dorder</h1>
-              </div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor libero id et, in gravida. Sit diam duis mauris nulla cursus. Erat et lectus vel ut sollicitudin elit at amet.</p>
-            </Col>
-            <Col md={3} sm={5} className='box'>
-              <h2>About Us</h2>
-              <ul>
-                <li>Careers</li>
-                <li>Our Stores</li>
-                <li>Our Cares</li>
-                <li>Terms & Conditions</li>
-                <li>Privacy Policy</li>
-              </ul>
-            </Col>
-            <Col md={3} sm={5} className='box'>
-              <h2>Customer Care</h2>
-              <ul>
-                <li>Help Center </li>
-                <li>How to Buy </li>
-                <li>Track Your Order </li>
-                <li>Corporate & Bulk Purchasing </li>
-                <li>Returns & Refunds </li>
-              </ul>
-            </Col>
-            <Col md={3} sm={5} className='box'>
-              <h2>Contact Us</h2>
-              <ul>
-                <li>70 Washington Square South, New York, NY 10012, United States </li>
-                <li>Email: uilib.help@gmail.com</li>
-                <li>Phone: +1 1123 456 780</li>
-              </ul>
-            </Col>
-          </Row>
-        </Container>
+    <footer className="footer  text-white pt-10 pb-5">
+      <div className="max-w-6xl mx-auto px-5 lg:px-0">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="mb-6">
+            <div className="flex items-center space-x-2 mb-6">
+              <img src={icp} alt="icp" />{" "}
+            </div>
+            <p>
+              Welcome to DOrder, where fashion, technology, and home essentials
+              meet innovation. Discover a curated selection of exclusive deals
+              and eco-friendly products designed to enrich your lifestyle.
+            </p>
+          </div>
+          <div className="mb-6">
+            <h2 className="mb-4 font-semibold text-xl">About Us</h2>
+            <ul>
+              <li className="mb-2">Careers</li>
+              <li className="mb-2">Our Stores</li>
+              <li className="mb-2">Our Cares</li>
+              <li className="mb-2">Terms & Conditions</li>
+              <li className="mb-2">Privacy Policy</li>
+            </ul>
+          </div>
+          <div className="mb-6">
+            <h2 className="mb-4 font-semibold text-xl">Customer Care</h2>
+            <ul>
+              <li className="mb-2">Help Center</li>
+              <li className="mb-2">How to Buy</li>
+              <li className="mb-2">Track Your Order</li>
+              <li className="mb-2">Corporate & Bulk Purchasing</li>
+              <li className="mb-2">Returns & Refunds</li>
+            </ul>
+          </div>
+          <div className="mb-6">
+            <h2 className="mb-4 font-semibold text-xl">Contact Us</h2>
+            <ul>
+              <li className="mb-2">
+                Address: Gurmaill park,tibba road, ludhiana
+              </li>
+              <li className="mb-2">Email: mohdanas0.693@gmail.com</li>
+              <li className="mb-2">Phone: +91 8437827790</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;
