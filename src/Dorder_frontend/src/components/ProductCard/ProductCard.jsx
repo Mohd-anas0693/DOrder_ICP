@@ -40,7 +40,7 @@ const ProductCard = ({ title, productItem }) => {
           <i className="fa fa-star"></i>
         </div>
         <div className="price">
-          <h4>${productItem.price}</h4>
+          <h4>{productItem.price} (ICP)</h4>
           <button
             aria-label="Add"
             type="submit"

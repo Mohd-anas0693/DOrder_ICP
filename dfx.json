@@ -25,11 +25,6 @@
       }
     }
   },
-    "smartContract": {
-      "main": "src/smartContract/main.mo",
-      "type": "motoko",
-      "args": ""
-    },
     "internet_identity" : {
       "type": "pull",
       "id": "rdmx6-jaaaa-aaaaa-aaadq-cai"

@@ -11,11 +11,13 @@ const SellerProductsDashboard = ({ identity, backendCanisterId }) => {
             const backendActor = createActor(backendCanisterId, { agentOptions: { identity: identity } });
             await backendActor.createProductItem(
                 {
-                    name: val?.name || "No name",
-                    price: parseInt(val?.price) || 0,
-                    stockLevel: val?.stock || "0",
-                    images: val?.image || "No image",
-                    description: val?.description || "No description"
+                    productName: val?.name || "No name",
+                    price: val?.price.toString() || "0",
+                    stockLevel: val?.stock.toString() || "0",
+                    imgUrl: val?.image || "No image",
+                    category: val?.category || "No category",
+                    shortDesc: val?.shortDesc || "No Short Description",
+                    description: val?.description || "No description",
                 }
             ).then((res) => {
                 console.log("res-in-success", res)
