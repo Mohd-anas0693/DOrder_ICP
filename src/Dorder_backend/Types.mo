@@ -6,12 +6,20 @@ module {
         productId : Text;
         name : Text;
         description : Text;
-        price : Text;
+        price : Nat;
         categeoryId : [Text];
         stockLevel : Text;
-        sellerInfo : SellerId;
+        sellerId : SellerId;
         images : Text;
         rating : Nat;
+    };
+
+    public type ProductRequest = {
+        name : Text;
+        description : Text;
+        price : Nat;
+        stockLevel : Text;
+        images : Text;
     };
 
     type Email = Text;
@@ -24,6 +32,7 @@ module {
     };
     public type OrderStatus = {
         #canceled;
+        #onway;
         #delivered;
     };
     public type UserData = {
@@ -32,16 +41,16 @@ module {
         email : Text;
         dob : Text;
         address : Address;
-        orderHistory : [{ orderId : OrderId; status : OrderStatus }];
+        orderHistory : [OrderId];
         walletAddress : Text;
     };
     public type OrderId = Text;
     public type Order = {
         orderId : OrderId;
-        userId : UserId;    
+        userId : UserId;
         sellerId : [SellerId];
         productList : [ProductId];
-        totalAmount : Text;
+        totalAmount : Nat;
         orderStatus : OrderStatus;
         paymentInfo : Text;
         shippingDetails : Text;
