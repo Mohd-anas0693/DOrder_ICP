@@ -2,24 +2,33 @@ module {
     public type ProductId = Text;
     public type UserId = Text;
     public type SellerId = Text;
+    public type Rating = {
+        rating : Text;
+        text : Text;
+    };
     public type Product = {
-        productId : Text;
-        name : Text;
-        description : Text;
-        price : Nat;
-        categeoryId : [Text];
-        stockLevel : Text;
+        id : Text;
         sellerId : SellerId;
-        images : Text;
-        rating : Nat;
+        productName : Text;
+        imgUrl : Text;
+        categeory : Text;
+        price : Nat;
+        stockLevel : Nat;
+        discount : Nat;
+        shortDesc : Text;
+        description : Text;
+        reviews : [Rating];
+        avgRating : Text;
     };
 
     public type ProductRequest = {
         name : Text;
+        shortDes : Text;
         description : Text;
-        price : Nat;
+        price : Text;
         stockLevel : Text;
         images : Text;
+        categeory : Text;
     };
 
     type Email = Text;
