@@ -11,7 +11,7 @@ module {
         sellerId : SellerId;
         productName : Text;
         imgUrl : Text;
-        categeory : Text;
+        category : Text;
         price : Nat;
         stockLevel : Nat;
         discount : Nat;
@@ -22,13 +22,13 @@ module {
     };
 
     public type ProductRequest = {
-        name : Text;
-        shortDes : Text;
+        productName : Text;
+        shortDesc : Text;
         description : Text;
         price : Text;
         stockLevel : Text;
-        images : Text;
-        categeory : Text;
+        imgUrl : Text;
+        category : Text;
     };
 
     type Email = Text;
