@@ -9,6 +9,7 @@ const SellerSignUp = ({ identity, backendCanisterId }) => {
     const [phone, setPhone] = useState('');
     const [country, setCountry] = useState('');
     const [address, setAddress] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -57,12 +58,15 @@ const SellerSignUp = ({ identity, backendCanisterId }) => {
             return false;
         }
     };
+
     const handleSubmit = (e) => {
         e.preventDefault();
+        setIsLoading(true);
         // Do something with the form values
         if (name && govId && phone && country && address) {
             onBoardSeller();
         } else {
+            setIsLoading(false);
             alert("Invalid Inputs");
         }
     };
@@ -96,8 +100,8 @@ const SellerSignUp = ({ identity, backendCanisterId }) => {
                             <label htmlFor="address" className="block mb-2 text-sm font-medium text-gray-900">Address</label>
                             <textarea rows="8" name="address" id="address" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="India" required="true" value={address} onChange={handleInputChange}></textarea>
                         </div>
-                        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Submit
+                        <button type="submit" disabled={isLoading} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            {isLoading ? `Submitting...` : `Submit`}
                         </button>
                     </form>
                 </div>

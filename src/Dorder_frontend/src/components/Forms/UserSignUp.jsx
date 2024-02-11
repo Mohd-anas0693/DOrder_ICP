@@ -5,6 +5,7 @@ const UserSignUp = ({ setSignUpUserModal, onBoardUserHandler }) => {
     const [email, setEmail] = useState('');
     const [dob, setDob] = useState('');
     const [address, setAddress] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -28,10 +29,12 @@ const UserSignUp = ({ setSignUpUserModal, onBoardUserHandler }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setIsLoading(true);
         // Do something with the form values
         if (name && email && dob && address) {
             onBoardUserHandler({ name, email, dob, address });
         } else {
+            setIsLoading(false);
             alert("Invalid Inputs");
         }
     };
@@ -69,8 +72,8 @@ const UserSignUp = ({ setSignUpUserModal, onBoardUserHandler }) => {
                         </div>
 
                         <div className='flex gap-2 justify-center px-2'>
-                            <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                Submit
+                            <button type="submit" disabled={isLoading} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                {isLoading ? `Submitting...` : `Submit`}
                             </button>
                             <button onClick={closeFormHandler} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                 Cancel
