@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 
-const AddProduct = ({setAddProductModal, addProductHandler }) => {
+const AddProduct = ({ setAddProductModal, addProductHandler }) => {
     const [name, setName] = useState('');
-    const [price, setPrice] = useState('');
-    const [stock, setStock] = useState('');
+    const [price, setPrice] = useState(0);
+    const [stock, setStock] = useState(0);
     const [image, setImage] = useState('');
+    const [category, setCategory] = useState('sofa');
+    const [shortDesc, setShortDesc] = useState('');
     const [description, setDescription] = useState('');
 
     const handleInputChange = (e) => {
@@ -22,6 +24,9 @@ const AddProduct = ({setAddProductModal, addProductHandler }) => {
             case 'image':
                 setImage(value);
                 break;
+            case 'shortDesc':
+                setShortDesc(value);
+                break;
             case 'description':
                 setDescription(value);
                 break;
@@ -33,18 +38,22 @@ const AddProduct = ({setAddProductModal, addProductHandler }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         // Do something with the form values
-        if (name && price && stock && image && description) {
-            addProductHandler({ name, price, stock, image, description });
+        if (name && price && stock && image && category && shortDesc && description) {
+            addProductHandler({ name, price, stock, image, category, shortDesc, description });
         } else {
             alert("Invalid Inputs");
         }
     };
 
+
+
     const closeFormHandler = () => {
         setName('');
-        setPrice('');
-        setStock('');
+        setPrice(0);
+        setStock(0);
         setImage('');
+        setCategory('sofa');
+        setShortDesc('');
         setDescription('');
         setAddProductModal(false);
     }
@@ -61,16 +70,27 @@ const AddProduct = ({setAddProductModal, addProductHandler }) => {
                             <input type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Bell Bettom" required="true" value={name} onChange={handleInputChange} />
                         </div>
                         <div>
+                            <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900">Category</label>
+                            <select className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full' name="category" id="category" defaultValue={category} onChange={() => setCategory(e.target.value)}>
+                                <option value="sofa">Sofa</option>
+                                <option value="mobile">Mobile</option>
+                            </select>
+                        </div>
+                        <div>
                             <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900">Price (In ICP)</label>
-                            <input type="text" name="price" id="price" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="1" required="true" value={price} onChange={handleInputChange} />
+                            <input type="number" name="price" id="price" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="1" required="true" value={price} onChange={handleInputChange} />
                         </div>
                         <div>
                             <label htmlFor="stock" className="block mb-2 text-sm font-medium text-gray-900">Stock Available</label>
-                            <input type="tel" name="stock" id="stock" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="1" required="true" value={stock} onChange={handleInputChange} />
+                            <input type="number" name="stock" id="stock" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="1" required="true" value={stock} onChange={handleInputChange} />
                         </div>
                         <div>
                             <label htmlFor="image" className="block mb-2 text-sm font-medium text-gray-900">Image</label>
                             <input type="text" name="image" id="image" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Image Url" required="true" value={image} onChange={handleInputChange} />
+                        </div>
+                        <div>
+                            <label htmlFor="shortDesc" className="block mb-2 text-sm font-medium text-gray-900">Short Description</label>
+                            <textarea rows="3" name="shortDesc" id="shortDesc" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Product short description..." required="true" value={shortDesc} onChange={handleInputChange}></textarea>
                         </div>
                         <div>
                             <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900">Description</label>

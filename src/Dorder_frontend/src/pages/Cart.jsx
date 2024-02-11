@@ -1,4 +1,4 @@
-import React,{ useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -6,8 +6,15 @@ import {
   decreaseQty,
   deleteProduct,
 } from "../app/features/cart/cartSlice";
+import { useAuth } from "../utils/useAuthClientHelper";
+import { getValueByKeyFromString } from "../utils/getMessage";
+import { createActor } from "../../../declarations/backend/index";
+import { toast } from "react-toastify";
+import UserSignUp from "../components/Forms/UserSignUp";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
+  const navigate = useNavigate();
   const { cartList } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   // middlware to localStorage
@@ -15,6 +22,10 @@ const Cart = () => {
     (price, item) => price + item.qty * item.price,
     0
   );
+
+  const [isUserExist, setIsUserExist] = useState(null);
+  const { backendCanisterId, identity } = useAuth();
+  const [signUpUserModal, setSignUpUserModal] = useState(false);
   useEffect(() => {
     window.scrollTo(0, 0);
     // if(CartItem.length ===0) {
@@ -22,68 +33,169 @@ const Cart = () => {
     //   setCartItem(JSON.parse(storedCart));
     // }
   }, []);
+
+
+  const isAlreadyUserExist = async () => {
+    let backendActor = createActor(backendCanisterId, { agentOptions: { identity: identity } });
+    try {
+      const res = await backendActor.getUserInfo();
+      console.log("res", res);
+      if (res) {
+        if (res === 'You are not user') {
+          return false;
+        }
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      let errMessage = await getValueByKeyFromString(error.toString(), "Reject text");
+      console.log("errMessage", errMessage);
+      toast.error(errMessage);
+      return false;
+    }
+  }
+
+  const onBoardUserHandler = async (val) => {
+    try {
+      const backendActor = createActor(backendCanisterId, { agentOptions: { identity: identity } });
+      await backendActor.createUserAccount(
+        {
+          name: val?.name || "No name",
+          email: val?.email || "No email",
+          dob: val?.dob || "No Dob",
+          address: val?.address || "No address",
+        }
+      ).then((res) => {
+        setIsUserExist(true);
+        setSignUpUserModal(false);
+        return true;
+      }).catch((err) => {
+        console.log("err", err)
+        return false;
+      });
+      return true;
+    } catch (error) {
+      let errMessage = getValueByKeyFromString(error.toString(), "Reject text");
+      console.log("error-in-create-user", error)
+      console.log("errMessage-in-create-user", errMessage)
+      return false;
+    }
+  };
+
+  const placeOrderHandler = async () => {
+    try {
+      const backendActor = createActor(backendCanisterId, { agentOptions: { identity: identity } });
+      await backendActor.createOrder("1234").then((res) => {
+        toast.success('Order Placed')
+        return true;
+      }).catch((err) => {
+        console.log("err", err)
+        return false;
+      });
+      return true;
+    } catch (error) {
+      let errMessage = getValueByKeyFromString(error.toString(), "Reject text");
+      console.log("error-in-place-order", error)
+      console.log("errMessage-in-place-order", errMessage)
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    console.log("cartList", cartList)
+    if (backendCanisterId && identity) {
+      (async () => {
+        const response = await isAlreadyUserExist();
+        console.log(response)
+        setIsUserExist(response);
+      })();
+    }
+  }, [backendCanisterId, identity]);
+
+
+  console.log(isUserExist)
   return (
     <section className="cart-items">
       <Container>
         <Row className="justify-content-center">
           <Col md={8}>
-            {cartList.length === 0 && (
-              <h1 className="no-items product">No Items are add in Cart</h1>
-            )}
-            {cartList.map((item) => {
-              const productQty = item.price * item.qty;
-              return (
-                <div className="cart-list" key={item.id}>
-                  <Row>
-                    <Col className="image-holder" sm={4} md={3}>
-                      <img src={item.imgUrl} alt="" />
-                    </Col>
-                    <Col sm={8} md={9}>
-                      <Row className="cart-content justify-content-center">
-                        <Col xs={12} sm={9} className="cart-details">
-                          <h3>{item.productName}</h3>
-                          <h4>
-                            ${item.price}.00 * {item.qty}
-                            <span>${productQty}.00</span>
-                          </h4>
+            {signUpUserModal ?
+              <div className="w-full flex justify-center">
+                <UserSignUp setSignUpUserModal={setSignUpUserModal} onBoardUserHandler={onBoardUserHandler} />
+              </div> :
+              cartList.length === 0 ? (
+                <h1 className="no-items product">No Items are add in Cart</h1>
+              ) :
+                cartList.map((item) => {
+                  const productQty = item.price * item.qty;
+                  return (
+                    <div className="cart-list" key={item.id}>
+                      <Row>
+                        <Col className="image-holder" sm={4} md={3}>
+                          <img src={item.imgUrl} alt="" />
                         </Col>
-                        <Col xs={12} sm={3} className="cartControl">
-                          <button
-                            className="incCart"
-                            onClick={() =>
-                              dispatch(addToCart({ product: item, num: 1 }))
-                            }
-                          >
-                            <i className="fa-solid fa-plus"></i>
-                          </button>
-                          <button
-                            className="desCart"
-                            onClick={() => dispatch(decreaseQty(item))}
-                          >
-                            <i className="fa-solid fa-minus"></i>
-                          </button>
+                        <Col sm={8} md={9}>
+                          <Row className="cart-content justify-content-center">
+                            <Col xs={12} sm={9} className="cart-details">
+                              <h3>{item.productName}</h3>
+                              <h4>
+                                {item.price}.00 (ICP) * {item.qty}
+                                <span>{productQty}.00 (ICP)</span>
+                              </h4>
+                            </Col>
+                            <Col xs={12} sm={3} className="cartControl">
+                              <button
+                                className="incCart"
+                                onClick={() =>
+                                  dispatch(addToCart({ product: item, num: 1 }))
+                                }
+                              >
+                                <i className="fa-solid fa-plus"></i>
+                              </button>
+                              <button
+                                className="desCart"
+                                onClick={() => dispatch(decreaseQty(item))}
+                              >
+                                <i className="fa-solid fa-minus"></i>
+                              </button>
+                            </Col>
+                          </Row>
                         </Col>
+                        <button
+                          className="delete"
+                          onClick={() => dispatch(deleteProduct(item))}
+                        >
+                          <ion-icon name="close"></ion-icon>
+                        </button>
                       </Row>
-                    </Col>
-                    <button
-                      className="delete"
-                      onClick={() => dispatch(deleteProduct(item))}
-                    >
-                      <ion-icon name="close"></ion-icon>
-                    </button>
-                  </Row>
-                </div>
-              );
-            })}
+                    </div>
+                  );
+                })}
           </Col>
+
           <Col md={4}>
             <div className="cart-total">
               <h2>Cart Summary</h2>
               <div className=" d_flex">
                 <h4>Total Price :</h4>
-                <h3>${totalPrice}.00</h3>
+                <h3>{totalPrice}.00 (ICP)</h3>
               </div>
             </div>
+
+            {isUserExist ?
+              (cartList && cartList.length > 0) ?
+                <button onClick={() => placeOrderHandler()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  Place Order
+                </button> :
+                <button onClick={() => navigate('/home')} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  Add Items to Cart
+                </button>
+              : <button disabled={signUpUserModal} onClick={() => setSignUpUserModal(true)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Sign Up to Place Order
+              </button>
+            }
+
           </Col>
         </Row>
       </Container>

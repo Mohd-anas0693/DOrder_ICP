@@ -37,7 +37,7 @@ const ProductDetails = ({ selectedProduct }) => {
               <span>{selectedProduct?.avgRating} ratings</span>
             </div>
             <div className="info">
-              <span className="price">${selectedProduct?.price}</span>
+              <span className="price">{selectedProduct?.price} (ICP)</span>
               <span>category:{selectedProduct?.category}</span>
             </div>
             <p>{selectedProduct?.shortDesc}</p>
